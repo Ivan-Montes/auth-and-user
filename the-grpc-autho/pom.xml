@@ -29,6 +29,7 @@
 		<grpc.server.spring.version>3.1.0.RELEASE</grpc.server.spring.version>
 		<grpc.client.spring.version>3.1.0.RELEASE</grpc.client.spring.version>
         <grpc.version>1.68.1</grpc.version>
+        <grpc.version.test>1.58.0</grpc.version.test>
         <os.maven.plugin>1.7.0</os.maven.plugin>
         <protobuf.version>3.23.4</protobuf.version>
         <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
@@ -98,7 +99,7 @@
       <dependency>
 	    <groupId>io.grpc</groupId>
 	    <artifactId>grpc-testing</artifactId>
-        <version>${grpc.version}</version>
+        <version>${grpc.version.test}</version>
 	    <scope>test</scope>
 	 </dependency>
 	  
