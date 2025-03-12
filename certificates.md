@@ -25,21 +25,20 @@ openssl req -key ca.key -new -x509 -out ca.crt -days 3650
 **Generate private key**
 openssl genpkey -algorithm RSA -out server.key
 ```
-  
-   - CHALLENGE PASS: firmame
-   - Complete the requested information with fictional data
-           
+            
 ```bash
 **Generate sign request (CSR)**
 openssl req -new -key server.key -out server.csr -nodes
-```     
-    
+```
+   - CHALLENGE PASS: firmame
+   - Complete the requested information with fictional data
+   
 ```bash 
 **Sign certificate with CA**
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 3650 -sha256 -extfile <(printf "subjectAltName=DNS:localhost, DNS:the-grpc-autho, DNS:the-grpc-opinator, DNS:the-grpc-user-pack, IP:127.0.0.1")
 ```
 
 ```bash 
-**Sign**
+**Check Sign**
 openssl x509 -in server.crt -text -noout
 ```
