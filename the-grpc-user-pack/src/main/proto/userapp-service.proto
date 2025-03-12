@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+
+package net.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.proto";
+
+service UserAppGrpcService {
+
+  rpc CreateUser (CreateUserAppRequest) returns (UserAppCreatedResponse) {
+      option (google.api.http) = {
+          post: "/api/v1/usersapp"
+          body: "*"
+      };
+  }
+  rpc UpdateUser (UpdateUserAppRequest) returns (UserAppProto) {
+      option (google.api.http) = {
+          post: "/api/v1/usersapp/{email}"
+          body: "*"
+      };
+  }
+  rpc DeleteUser (DeleteUserAppRequest) returns (DeleteUserAppResponse) {
+      option (google.api.http) = { delete: "/api/v1/usersapp/{email}" };
+  }
+  rpc ListUsers (google.protobuf.Empty) returns (ListUsersAppResponse) {
+      option (google.api.http) = { get: "/api/v1/usersapp" };
+  }
+  rpc ListUsersPaginated (PaginationRequest) returns (ListUsersAppResponse) {
+      option (google.api.http) = { get: "/api/v1/usersapp" };
+  }
+  rpc GetUser (GetUserAppRequest) returns (UserAppProto) {
+      option (google.api.http) = { get: "/api/v1/usersapp/{email}" };
+  }  
+  rpc DisableUser (DisableUserAppRequest) returns (DisableUserAppResponse) {
+      option (google.api.http) = { 
+          post: "/api/v1/usersapp/disable/{email}"
+          body: "*" 
+      };
+  }
+  rpc EnableUser (EnableUserAppRequest) returns (EnableUserAppResponse) {
+      option (google.api.http) = { 
+          post: "/api/v1/usersapp/enable/{email}" 
+          body: "*"
+      };
+  }
+}
+
+message UserAppProto {
+  int64 userAppId = 1;
+  string email = 2;
+  string name = 3; 
+  string lastname = 4;
+}
+
+message CreateUserAppRequest { 
+  string email = 1;
+  string name = 2; 
+  string lastname = 3;
+}
+
+message UserAppCreatedResponse {
+  bool result = 1;
+}
+
+message UpdateUserAppRequest {
+  int64 userAppId = 1;
+  string email = 2;
+  string name = 3;
+  string lastname = 4; 
+}
+
+message DeleteUserAppRequest {
+  int64 userAppId = 1;
+}
+
+message DeleteUserAppResponse {
+  bool result = 1;
+}
+
+message ListUsersAppResponse {
+  repeated UserAppProto users = 1;
+}
+
+message PaginationRequest {
+  int32 page = 1;
+  int32 size = 2;
+  string sortBy = 3;
+  string sortDir = 4;
+}
+
+message GetUserAppRequest {
+  int64 userAppId = 1;
+}
+
+message DisableUserAppRequest {
+  string email = 1;
+}
+
+message DisableUserAppResponse {
+  bool result = 1;
+}
+
+message EnableUserAppRequest {
+  string email = 1;
+}
+
+message EnableUserAppResponse {
+  bool result = 1;
+}
+

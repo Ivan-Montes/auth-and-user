@@ -1,0 +1,89 @@
+
+spring:
+  application:
+    name: the-grpc-user-pack
+  config:
+    import: optional:file:.env[.properties]
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/userappSqlDb
+    username: root
+    password: ${SQLDB_PASS} 
+      
+  jpa:
+    properties:
+      hibernate:
+        '[generate_statistics]': true
+    open-in-view: true
+    show-sql: true
+
+# JWT Server conf for client
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9000
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      transaction-id-prefix: tx-${eureka.instance.instance-id}-
+      properties:
+        enable:
+          idempotence: true
+        cleanup:
+          policy: compact
+        acks: all
+        retries: 10
+        retry:
+          backoff:
+            ms: 1000
+    consumer:
+      bootstrap-servers: localhost:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+      properties:
+        isolation:
+          level: read_committed
+        spring:
+          json:
+            trusted:
+              packages: '*'
+
+server:
+  port: ${SERVER_PORT:0}
+
+grpc:
+  server:
+    port: ${GRPC_SERVER_PORT:0}
+    security:
+      enabled: true
+      certificateChain: file:certificates/server.crt
+      privateKey: file:certificates/server.key
+      trustCertCollection: file:certificates/ca.crt
+      clientAuth: OPTIONAL
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+    preferIpAddress: true
+
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ 
+
+logging:
+  level:
+    org:
+      springframework:
+        security: ERROR 
+      hibernate:
+        stat: DEBUG 
