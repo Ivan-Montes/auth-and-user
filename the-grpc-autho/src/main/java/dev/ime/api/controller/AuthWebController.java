@@ -11,4 +11,9 @@ public class AuthWebController {
 		return "success";
 	}
 
+	@GetMapping("/error")
+	public String errorLogin() {
+		return "error";
+	}
+
 }
