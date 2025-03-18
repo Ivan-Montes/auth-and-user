@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "common.proto";
+
+package net.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.proto";
+
+service ProductGrpcService {
+
+  rpc CreateProduct(CreateProductRequest) returns (ProductProto) {
+    option (google.api.http) = {
+      post: "/api/v1/products"
+      body: "*"
+    };
+  }
+  rpc UpdateProduct(UpdateProductRequest) returns (ProductProto) {
+    option (google.api.http) = {
+      post: "/api/v1/products/{productId}"
+      body: "*"
+    };
+  }
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse) {
+    option (google.api.http) = { 
+      delete: "/api/v1/products/{productId}" 
+    };
+  }
+  rpc ListProducts(google.protobuf.Empty) returns (ListProductsResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/products" 
+    };
+  }
+  rpc ListProductsPaginated(PaginationRequest) returns (ListProductsResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/products" 
+    };
+  }
+  rpc GetProduct(GetProductRequest) returns (ProductProto) {
+    option (google.api.http) = { 
+      get: "/api/v1/products/{productId}" 
+    };
+  }
+}
+
+message ProductProto {
+  int64 productId = 1;
+  string productName = 2;
+  string productDescription = 3;
+  int64 categoryId = 4;
+}
+
+message CreateProductRequest {
+  string productName = 1;
+  string productDescription = 2;
+  int64 categoryId = 3;
+}
+
+message UpdateProductRequest {
+  int64 productId = 1;
+  string productName = 2;
+  string productDescription = 3;
+  int64 categoryId = 4;
+}
+
+message DeleteProductRequest {
+  int64 productId = 1;
+}
+
+message DeleteProductResponse {
+  bool success = 1;
+}
+
+message ListProductsResponse {
+  repeated ProductProto products = 1;
+}
+
+message GetProductRequest {
+  int64 productId = 1;
+}

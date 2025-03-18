@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "common.proto";
+
+package net.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.proto";
+
+service ReviewGrpcService {
+  
+  rpc CreateReview(CreateReviewRequest) returns (ReviewProto) {
+    option (google.api.http) = {
+      post: "/api/v1/reviews"
+      body: "*"
+    };
+  }
+  rpc UpdateReview(UpdateReviewRequest) returns (ReviewProto) {
+    option (google.api.http) = {
+      post: "/api/v1/reviews/{reviewId}"
+      body: "*"
+    };
+  }
+  rpc DeleteReview(DeleteReviewRequest) returns (DeleteReviewResponse) {
+    option (google.api.http) = { 
+      delete: "/api/v1/reviews/{reviewId}" 
+    };
+  }
+  rpc ListReviews(google.protobuf.Empty) returns (ListReviewsResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/reviews" 
+    };
+  }
+  rpc ListReviewsPaginated(PaginationRequest) returns (ListReviewsResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/reviews" 
+    };
+  }
+  rpc GetReview(GetReviewRequest) returns (ReviewProto) {
+    option (google.api.http) = { 
+      get: "/api/v1/reviews/{reviewId}" 
+    };
+  }
+}
+
+message ReviewProto {
+  int64 reviewId = 1;
+  string email = 2;
+  int64 productId = 3;
+  string reviewText = 4;
+  int32 rating = 5;
+}
+
+message CreateReviewRequest {
+  int64 productId = 1;
+  string reviewText = 2;
+  int32 rating = 3;
+}
+
+message UpdateReviewRequest {
+  int64 reviewId = 1;
+  string reviewText = 2;
+  int32 rating = 3;
+}
+
+message DeleteReviewRequest {
+  int64 reviewId = 1;
+}
+
+message DeleteReviewResponse {
+  bool success = 1;
+}
+
+message ListReviewsResponse {
+  repeated ReviewProto reviews = 1;
+}
+
+message GetReviewRequest {
+  int64 reviewId = 1;
+}

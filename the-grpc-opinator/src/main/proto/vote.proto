@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "common.proto";
+
+package net.proto;
+
+option java_multiple_files = true;
+option java_package = "dev.proto";
+
+service VoteGrpcService {
+
+  rpc CreateVote(CreateVoteRequest) returns (VoteProto) {
+    option (google.api.http) = {
+      post: "/api/v1/votes"
+      body: "*"
+    };
+  }
+  rpc UpdateVote(UpdateVoteRequest) returns (VoteProto) {
+    option (google.api.http) = {
+      post: "/api/v1/votes/{voteId}"
+      body: "*"
+    };
+  }
+  rpc DeleteVote(DeleteVoteRequest) returns (DeleteVoteResponse) {
+    option (google.api.http) = { 
+      delete: "/api/v1/votes/{voteId}" 
+    };
+  }
+  rpc ListVotes(google.protobuf.Empty) returns (ListVotesResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/votes" 
+    };
+  }
+  rpc ListVotesPaginated(PaginationRequest) returns (ListVotesResponse) {
+    option (google.api.http) = { 
+      get: "/api/v1/votes" 
+    };
+  }
+  rpc GetVote(GetVoteRequest) returns (VoteProto) {
+    option (google.api.http) = { 
+      get: "/api/v1/votes/{voteId}" 
+    };
+  }
+}
+
+message VoteProto {
+  int64 voteId = 1;
+  string email = 2;
+  int64 reviewId = 3;
+  google.protobuf.BoolValue useful = 4;
+}
+
+message CreateVoteRequest {
+  int64 reviewId = 1;
+  bool useful = 2;
+}
+
+message UpdateVoteRequest {
+  int64 voteId = 1;
+  bool useful = 2;
+}
+
+message DeleteVoteRequest {
+  int64 voteId = 1;
+}
+
+message DeleteVoteResponse {
+  bool success = 1;
+}
+
+message ListVotesResponse {
+  repeated VoteProto votes = 1;
+}
+
+message GetVoteRequest {
+  int64 voteId = 1;
+}
