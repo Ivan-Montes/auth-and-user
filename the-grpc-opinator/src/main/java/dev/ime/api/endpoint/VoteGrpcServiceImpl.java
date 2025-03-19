@@ -16,7 +16,7 @@ import dev.ime.api.validation.VoteRequestValidator;
 import dev.ime.application.dto.PaginationDto;
 import dev.ime.application.dto.VoteDto;
 import dev.ime.application.exception.EmptyResponseException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.VoteMapper;
 import dev.ime.domain.port.inbound.GenericServicePort;
 import dev.proto.CreateVoteRequest;

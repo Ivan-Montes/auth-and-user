@@ -16,7 +16,7 @@ import dev.ime.api.validation.CategoryRequestValidator;
 import dev.ime.application.dto.CategoryDto;
 import dev.ime.application.dto.PaginationDto;
 import dev.ime.application.exception.EmptyResponseException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.CategoryMapper;
 import dev.ime.domain.port.inbound.GenericServicePort;
 import dev.proto.CategoryGrpcServiceGrpc;
