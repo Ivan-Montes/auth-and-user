@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dev.ime.application.exception.BasicException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.StatusException;

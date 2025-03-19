@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import dev.ime.application.dto.ErrorResponse;
 import dev.ime.application.exception.BasicException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
