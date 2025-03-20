@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dev.ime.application.exception.OnlyOneVotePerUserInReviewException;
 import dev.ime.application.exception.ResourceNotFoundException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.VoteMapper;
 import dev.ime.domain.model.Vote;
 import dev.ime.domain.port.outbound.GenericRepositoryPort;

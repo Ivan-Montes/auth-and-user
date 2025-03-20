@@ -10,7 +10,7 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.domain.model.Event;
 import dev.ime.domain.port.outbound.PublisherPort;
 

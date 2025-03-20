@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.ime.application.exception.EntityAssociatedException;
 import dev.ime.application.exception.OnlyOneReviewPerUserInProductException;
 import dev.ime.application.exception.ResourceNotFoundException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.ReviewMapper;
 import dev.ime.domain.model.Review;
 import dev.ime.domain.port.outbound.GenericRepositoryPort;

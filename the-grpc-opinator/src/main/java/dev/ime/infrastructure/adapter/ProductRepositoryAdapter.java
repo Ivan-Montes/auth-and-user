@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.ime.application.exception.EntityAssociatedException;
 import dev.ime.application.exception.ResourceNotFoundException;
 import dev.ime.application.exception.UniqueValueException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.ProductMapper;
 import dev.ime.domain.model.Product;
 import dev.ime.domain.port.outbound.GenericRepositoryPort;
