@@ -1,4 +1,4 @@
-package dev.ime.common.config;
+package dev.ime.common.constants;
 
 public class GlobalConstants {
 

@@ -13,7 +13,7 @@ import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 
 import dev.ime.application.exception.ValidationException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.proto.CreateProductRequest;
 import dev.proto.DeleteProductRequest;
 import dev.proto.GetProductRequest;

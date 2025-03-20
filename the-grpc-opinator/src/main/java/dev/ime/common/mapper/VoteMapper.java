@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.BoolValue;
 
 import dev.ime.application.dto.VoteDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Product;
 import dev.ime.domain.model.Review;
