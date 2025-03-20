@@ -1,7 +1,7 @@
 
 # auth-and-user
 
-When gRPC met Spring... but also Hexagonal Arch, Authorization Server, JWT and Hibernate. The system allows users to register, create categories, products, and leave opinions, reviews, and votes.
+When gRPC met Spring... but also Hexagonal Arch, Authorization Server and JWT. The system allows users to register, create categories, products, and leave opinions, reviews, and votes.
 
 **Components** :rotating_light::no_entry: **IN CONSTRUCCTION**
 - [Kafka](https://kafka.apache.org/) [9092] + [9093] 
@@ -103,7 +103,7 @@ You can find a [SoapUI](https://www.soapui.org/) profile with the request token 
   
 #### Main operations
 
-You can use [grpcurl](https://github.com/fullstorydev/grpcurl) to call gRPC services by selecting the appropriate port. <u>Since the port is random, you will need to adjust the examples accordingly</u>. The main operations in the project are managed by `the-grpc-opinator` microservice, so the following commands are for it. Remember to request and update the token too.
+You can use [grpcurl](https://github.com/fullstorydev/grpcurl) to call gRPC services by selecting the appropriate port. **Since the port is random, you will need to adjust the examples accordingly**. The main operations in the project are managed by `the-grpc-opinator` microservice, so the following commands are for it. Remember to request and update the token too.
 
 ```   
 - Category endpoint examples
@@ -149,8 +149,6 @@ grpcurl -cacert ./ca.crt -d '{"voteId":"1"}' localhost:50051 net.proto.VoteGrpcS
 ## Features
 
 #### :arrow_forward: Secure gRPC communications with SSL encryption
-
-#### :arrow_forward: Integration of Hibernate for efficient database management
 
 #### :arrow_forward: JWT token-based authorization for secure access
 
