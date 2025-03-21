@@ -9,7 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.ime.application.dto.ProductDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.common.mapper.ProductMapper;
 import dev.ime.domain.model.Product;
 import dev.ime.domain.port.inbound.GenericServicePort;
@@ -21,14 +22,16 @@ public class ProductServiceAdapter implements GenericServicePort<ProductDto> {
 
 	private final GenericRepositoryPort<Product> productRepositoryAdapter;
 	private final ProductMapper productMapper;
+	private final EventMapper eventMapper;
 	private final PublisherPort publisherAdapter;
 	private static final Logger logger = LoggerFactory.getLogger(ProductServiceAdapter.class);
 
 	public ProductServiceAdapter(GenericRepositoryPort<Product> productRepositoryAdapter, ProductMapper productMapper,
-			PublisherPort publisherAdapter) {
+			EventMapper eventMapper, PublisherPort publisherAdapter) {
 		super();
 		this.productRepositoryAdapter = productRepositoryAdapter;
 		this.productMapper = productMapper;
+		this.eventMapper = eventMapper;
 		this.publisherAdapter = publisherAdapter;
 	}
 
@@ -63,7 +66,7 @@ public class ProductServiceAdapter implements GenericServicePort<ProductDto> {
 				.flatMap(productRepositoryAdapter::save)
 				.map(productMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(productMapper.fromDtoToEvent(GlobalConstants.PROD_CREATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.PROD_CAT, GlobalConstants.PROD_CREATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -80,7 +83,7 @@ public class ProductServiceAdapter implements GenericServicePort<ProductDto> {
 				.flatMap(productRepositoryAdapter::update)
 				.map(productMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(productMapper.fromDtoToEvent(GlobalConstants.PROD_UPDATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.PROD_CAT, GlobalConstants.PROD_UPDATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -101,7 +104,7 @@ public class ProductServiceAdapter implements GenericServicePort<ProductDto> {
 
 		Optional.ofNullable(id)
 		.map( i -> new ProductDto(id,"","",-1L))
-		.map(item -> productMapper.fromDtoToEvent(GlobalConstants.PROD_DELETED, item))
+		.map(item -> eventMapper.createEvent(GlobalConstants.PROD_CAT, GlobalConstants.PROD_DELETED, item))
 		.ifPresent(publisherAdapter::publishEvent);
 
 		return result;

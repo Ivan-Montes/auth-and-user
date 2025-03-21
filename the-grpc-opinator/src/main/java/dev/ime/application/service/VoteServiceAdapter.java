@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import dev.ime.application.dto.VoteDto;
 import dev.ime.application.exception.ResourceNotFoundException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.common.mapper.VoteMapper;
 import dev.ime.domain.model.Vote;
 import dev.ime.domain.port.inbound.AuthorizationServicePort;
@@ -24,15 +25,18 @@ public class VoteServiceAdapter implements GenericServicePort<VoteDto> {
 
 	private final GenericRepositoryPort<Vote> voteRepositoryAdapter;
 	private final VoteMapper voteMapper;
+	private final EventMapper eventMapper;
 	private final AuthorizationServicePort authorizationServiceAdapter;
 	private final PublisherPort publisherAdapter;
 	private static final Logger logger = LoggerFactory.getLogger(VoteServiceAdapter.class);
 
 	public VoteServiceAdapter(GenericRepositoryPort<Vote> voteRepositoryAdapter, VoteMapper voteMapper,
-			AuthorizationServicePort authorizationServiceAdapter, PublisherPort publisherAdapter) {
+			EventMapper eventMapper, AuthorizationServicePort authorizationServiceAdapter,
+			PublisherPort publisherAdapter) {
 		super();
 		this.voteRepositoryAdapter = voteRepositoryAdapter;
 		this.voteMapper = voteMapper;
+		this.eventMapper = eventMapper;
 		this.authorizationServiceAdapter = authorizationServiceAdapter;
 		this.publisherAdapter = publisherAdapter;
 	}
@@ -72,7 +76,7 @@ public class VoteServiceAdapter implements GenericServicePort<VoteDto> {
 				.flatMap(voteRepositoryAdapter::save)
 				.map(voteMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(voteMapper.fromDtoToEvent(GlobalConstants.VOT_CREATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.VOT_CAT, GlobalConstants.VOT_CREATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -92,7 +96,7 @@ public class VoteServiceAdapter implements GenericServicePort<VoteDto> {
 				.flatMap(voteRepositoryAdapter::update)
 				.map(voteMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(voteMapper.fromDtoToEvent(GlobalConstants.VOT_UPDATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.VOT_CAT, GlobalConstants.VOT_UPDATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -128,7 +132,7 @@ public class VoteServiceAdapter implements GenericServicePort<VoteDto> {
 
 		Optional.ofNullable(id)
 		.map( i -> new VoteDto(id,"",-1L,false))
-		.map(item -> voteMapper.fromDtoToEvent(GlobalConstants.VOT_DELETED, item))
+		.map(item -> eventMapper.createEvent(GlobalConstants.VOT_CAT, GlobalConstants.VOT_DELETED, item))
 		.ifPresent(publisherAdapter::publishEvent);
 
 		return result;

@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.ime.application.dto.CategoryDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.CategoryMapper;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.domain.model.Category;
 import dev.ime.domain.port.inbound.GenericServicePort;
 import dev.ime.domain.port.outbound.GenericRepositoryPort;
@@ -21,14 +22,16 @@ public class CategoryServiceAdapter implements GenericServicePort<CategoryDto>{
 
 	private final GenericRepositoryPort<Category> categoryRepositoryAdapter;
 	private final CategoryMapper categoryMapper;
+	private final EventMapper eventMapper;
 	private final PublisherPort publisherAdapter;
 	private static final Logger logger = LoggerFactory.getLogger(CategoryServiceAdapter.class);
 
 	public CategoryServiceAdapter(GenericRepositoryPort<Category> categoryRepositoryAdapter,
-			CategoryMapper categoryMapper, PublisherPort publisherAdapter) {
+			CategoryMapper categoryMapper, EventMapper eventMapper, PublisherPort publisherAdapter) {
 		super();
 		this.categoryRepositoryAdapter = categoryRepositoryAdapter;
 		this.categoryMapper = categoryMapper;
+		this.eventMapper = eventMapper;
 		this.publisherAdapter = publisherAdapter;
 	}
 
@@ -63,7 +66,7 @@ public class CategoryServiceAdapter implements GenericServicePort<CategoryDto>{
 				.flatMap(categoryRepositoryAdapter::save)
 				.map(categoryMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(categoryMapper.fromDtoToEvent(GlobalConstants.CAT_CREATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.CAT_CAT, GlobalConstants.CAT_CREATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -80,7 +83,7 @@ public class CategoryServiceAdapter implements GenericServicePort<CategoryDto>{
 				.flatMap(categoryRepositoryAdapter::update)
 				.map(categoryMapper::fromDomainToDto)
 				.map( itemUpdated -> {
-					publisherAdapter.publishEvent(categoryMapper.fromDtoToEvent(GlobalConstants.CAT_UPDATED, itemUpdated));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.CAT_CAT, GlobalConstants.CAT_UPDATED, itemUpdated));
 					return itemUpdated;
 				})
 		        .map(item -> {
@@ -101,7 +104,7 @@ public class CategoryServiceAdapter implements GenericServicePort<CategoryDto>{
 		
 		Optional.ofNullable(id)
 		.map( i -> new CategoryDto(id,""))
-		.map(item -> categoryMapper.fromDtoToEvent(GlobalConstants.CAT_DELETED, item))
+		.map(item -> eventMapper.createEvent(GlobalConstants.CAT_CAT, GlobalConstants.CAT_DELETED, item))
 		.ifPresent(publisherAdapter::publishEvent);
 		
 		return result;

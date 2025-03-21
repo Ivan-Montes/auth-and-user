@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import dev.ime.application.exception.EmptyResponseException;
 import dev.ime.application.exception.JwtTokenEmailRestriction;
 import dev.ime.application.utils.JwtUtil;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.domain.port.inbound.AuthorizationServicePort;
 
 @Service

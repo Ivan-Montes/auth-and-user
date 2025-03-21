@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import dev.ime.application.dto.ReviewDto;
 import dev.ime.application.exception.ResourceNotFoundException;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.common.mapper.ReviewMapper;
 import dev.ime.domain.model.Review;
 import dev.ime.domain.port.inbound.AuthorizationServicePort;
@@ -24,15 +25,18 @@ public class ReviewServiceAdapter implements GenericServicePort<ReviewDto> {
 
 	private final GenericRepositoryPort<Review> reviewRepositoryAdapter;
 	private final ReviewMapper reviewMapper;
+	private final EventMapper eventMapper;
 	private final AuthorizationServicePort authorizationServiceAdapter;
 	private final PublisherPort publisherAdapter;
 	private static final Logger logger = LoggerFactory.getLogger(ReviewServiceAdapter.class);
 
 	public ReviewServiceAdapter(GenericRepositoryPort<Review> reviewRepositoryAdapter, ReviewMapper reviewMapper,
-			AuthorizationServicePort authorizationServiceAdapter, PublisherPort publisherAdapter) {
+			EventMapper eventMapper, AuthorizationServicePort authorizationServiceAdapter,
+			PublisherPort publisherAdapter) {
 		super();
 		this.reviewRepositoryAdapter = reviewRepositoryAdapter;
 		this.reviewMapper = reviewMapper;
+		this.eventMapper = eventMapper;
 		this.authorizationServiceAdapter = authorizationServiceAdapter;
 		this.publisherAdapter = publisherAdapter;
 	}
@@ -72,7 +76,7 @@ public class ReviewServiceAdapter implements GenericServicePort<ReviewDto> {
 				.flatMap(reviewRepositoryAdapter::save)
 				.map(reviewMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(reviewMapper.fromDtoToEvent(GlobalConstants.REV_CREATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.REV_CAT, GlobalConstants.REV_CREATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -92,7 +96,7 @@ public class ReviewServiceAdapter implements GenericServicePort<ReviewDto> {
 				.flatMap(reviewRepositoryAdapter::update)
 				.map(reviewMapper::fromDomainToDto)
 				.map( item -> {
-					publisherAdapter.publishEvent(reviewMapper.fromDtoToEvent(GlobalConstants.REV_UPDATED, item));
+					publisherAdapter.publishEvent(eventMapper.createEvent(GlobalConstants.REV_CAT, GlobalConstants.REV_UPDATED, item));
 					return item;
 				})
 		        .map(item -> {
@@ -128,7 +132,7 @@ public class ReviewServiceAdapter implements GenericServicePort<ReviewDto> {
 
 		Optional.ofNullable(id)
 		.map( i -> new ReviewDto(id,null,-1L,"",-1))
-		.map(item -> reviewMapper.fromDtoToEvent(GlobalConstants.REV_DELETED, item))
+		.map(item -> eventMapper.createEvent(GlobalConstants.REV_CAT, GlobalConstants.REV_DELETED, item))
 		.ifPresent(publisherAdapter::publishEvent);
 
 		return result;
