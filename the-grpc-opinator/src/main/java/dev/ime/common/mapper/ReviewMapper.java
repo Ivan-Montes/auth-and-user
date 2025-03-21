@@ -3,19 +3,13 @@ package dev.ime.common.mapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dev.ime.application.dto.ReviewDto;
-import dev.ime.common.constants.GlobalConstants;
 import dev.ime.domain.model.Category;
-import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Product;
 import dev.ime.domain.model.Review;
 import dev.ime.domain.model.Vote;
@@ -28,13 +22,6 @@ import dev.proto.UpdateReviewRequest;
 
 @Component
 public class ReviewMapper {
-
-	private final ObjectMapper objectMapper;
-	
-	public ReviewMapper(ObjectMapper objectMapper) {
-		super();
-		this.objectMapper = objectMapper;
-	}
 
 	public ReviewDto fromCreateToDto(CreateReviewRequest request) {
 
@@ -176,22 +163,6 @@ public class ReviewMapper {
 		}
 
 		return listDto.stream().map(this::fromDtoToProto).toList();
-
-	}
-
-	public Event fromDtoToEvent(String eventType, ReviewDto dto) {		
-		
-		return new Event(
-				GlobalConstants.REV_CAT,
-				eventType,
-				createEventData(dto)
-				);		
-	}
-	
-	private Map<String, Object> createEventData(ReviewDto dto) {
-
-		return objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {
-		});
 
 	}
 	

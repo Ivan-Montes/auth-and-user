@@ -3,19 +3,13 @@ package dev.ime.common.mapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import dev.ime.application.dto.CategoryDto;
-import dev.ime.common.constants.GlobalConstants;
 import dev.ime.domain.model.Category;
-import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Product;
 import dev.ime.infrastructure.entity.CategoryJpaEntity;
 import dev.ime.infrastructure.entity.ProductJpaEntity;
@@ -25,13 +19,6 @@ import dev.proto.UpdateCategoryRequest;
 
 @Component
 public class CategoryMapper {
-
-	private final ObjectMapper objectMapper;
-	
-	public CategoryMapper(ObjectMapper objectMapper) {
-		super();
-		this.objectMapper = objectMapper;
-	}
 
 	public CategoryDto fromCreateToDto(CreateCategoryRequest request) {
 	
@@ -154,20 +141,4 @@ public class CategoryMapper {
 				.toList();	
 	}
 
-	public Event fromDtoToEvent(String eventType, CategoryDto dto) {		
-		
-		return new Event(
-				GlobalConstants.CAT_CAT,
-				eventType,
-				createEventData(dto)
-				);		
-	}
-	
-	private Map<String, Object> createEventData(CategoryDto dto) {
-
-		return objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {
-		});
-
-	}
-	
 }

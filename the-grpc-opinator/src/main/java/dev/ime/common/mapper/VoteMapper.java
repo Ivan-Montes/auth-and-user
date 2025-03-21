@@ -3,17 +3,12 @@ package dev.ime.common.mapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.BoolValue;
 
 import dev.ime.application.dto.VoteDto;
-import dev.ime.common.constants.GlobalConstants;
-import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Product;
 import dev.ime.domain.model.Review;
 import dev.ime.domain.model.Vote;
@@ -25,14 +20,7 @@ import dev.proto.VoteProto;
 
 @Component
 public class VoteMapper {
-
-	private final ObjectMapper objectMapper;
 	
-	public VoteMapper(ObjectMapper objectMapper) {
-		super();
-		this.objectMapper = objectMapper;
-	}
-
 	public VoteDto fromCreateToDto(CreateVoteRequest request) {
 	
 		return new VoteDto(
@@ -155,22 +143,6 @@ public class VoteMapper {
 		return list.stream()
 				.map(this::fromDtoToProto)
 				.toList();	
-	}
-
-	public Event fromDtoToEvent(String eventType, VoteDto dto) {		
-		
-		return new Event(
-				GlobalConstants.VOT_CAT,
-				eventType,
-				createEventData(dto)
-				);		
-	}
-	
-	private Map<String, Object> createEventData(VoteDto dto) {
-
-		return objectMapper.convertValue(dto, new TypeReference<Map<String, Object>>() {
-		});
-
 	}
 	
 }
