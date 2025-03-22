@@ -28,7 +28,9 @@ public class ProductRequestValidator {
         FIELD_DESCRIPTOR_MAP = new HashMap<>();
         FIELD_DESCRIPTOR_MAP.put(CreateProductRequest.class, CreateProductRequest.getDescriptor()::findFieldByName);
         FIELD_DESCRIPTOR_MAP.put(UpdateProductRequest.class, UpdateProductRequest.getDescriptor()::findFieldByName);
-    }
+        FIELD_DESCRIPTOR_MAP.put(DeleteProductRequest.class, DeleteProductRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(GetProductRequest.class, GetProductRequest.getDescriptor()::findFieldByName);
+   }
 
 	public void validateCreateRequest(CreateProductRequest request) {
 		

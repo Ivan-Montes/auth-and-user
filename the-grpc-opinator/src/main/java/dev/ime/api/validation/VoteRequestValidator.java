@@ -25,6 +25,8 @@ public class VoteRequestValidator {
         FIELD_DESCRIPTOR_MAP = new HashMap<>();
         FIELD_DESCRIPTOR_MAP.put(CreateVoteRequest.class, CreateVoteRequest.getDescriptor()::findFieldByName);
         FIELD_DESCRIPTOR_MAP.put(UpdateVoteRequest.class, UpdateVoteRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(DeleteVoteRequest.class, DeleteVoteRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(GetVoteRequest.class, GetVoteRequest.getDescriptor()::findFieldByName);
     }
 
 	public void validateCreateRequest(CreateVoteRequest request) {

@@ -28,6 +28,8 @@ public class ReviewRequestValidator {
         FIELD_DESCRIPTOR_MAP = new HashMap<>();
         FIELD_DESCRIPTOR_MAP.put(CreateReviewRequest.class, CreateReviewRequest.getDescriptor()::findFieldByName);
         FIELD_DESCRIPTOR_MAP.put(UpdateReviewRequest.class, UpdateReviewRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(DeleteReviewRequest.class, DeleteReviewRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(GetReviewRequest.class, GetReviewRequest.getDescriptor()::findFieldByName);
     }
 	
 	public void validateCreateRequest(CreateReviewRequest request) {

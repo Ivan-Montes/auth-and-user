@@ -28,6 +28,8 @@ public class CategoryRequestValidator {
         FIELD_DESCRIPTOR_MAP = new HashMap<>();
         FIELD_DESCRIPTOR_MAP.put(CreateCategoryRequest.class, CreateCategoryRequest.getDescriptor()::findFieldByName);
         FIELD_DESCRIPTOR_MAP.put(UpdateCategoryRequest.class, UpdateCategoryRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(DeleteCategoryRequest.class, DeleteCategoryRequest.getDescriptor()::findFieldByName);
+        FIELD_DESCRIPTOR_MAP.put(GetCategoryRequest.class, GetCategoryRequest.getDescriptor()::findFieldByName);
     }
 
 	public void validateCreateRequest(CreateCategoryRequest request) {
