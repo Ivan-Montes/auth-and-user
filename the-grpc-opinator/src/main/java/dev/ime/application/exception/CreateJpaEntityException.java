@@ -3,7 +3,7 @@ package dev.ime.application.exception;
 import java.util.Map;
 import java.util.UUID;
 
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 
 public class CreateJpaEntityException extends BasicException{
 
