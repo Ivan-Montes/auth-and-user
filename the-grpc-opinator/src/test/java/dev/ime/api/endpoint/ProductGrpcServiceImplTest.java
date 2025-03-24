@@ -22,7 +22,7 @@ import com.google.protobuf.Empty;
 
 import dev.ime.api.validation.ProductRequestValidator;
 import dev.ime.application.dto.ProductDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.ProductMapper;
 import dev.ime.domain.port.inbound.GenericServicePort;
 import dev.proto.CreateProductRequest;
