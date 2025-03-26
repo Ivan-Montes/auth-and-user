@@ -3,6 +3,7 @@ package dev.ime.infrastructure.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.ime.common.constants.GlobalConstants;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,7 +20,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "categories")
+@Table(name = GlobalConstants.PROD_CAT_DB)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -40,5 +41,4 @@ public class CategoryJpaEntity {
 	@ToString.Exclude
 	@Builder.Default
 	private Set<ProductJpaEntity> products = new HashSet<>();
-
 }

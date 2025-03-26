@@ -3,6 +3,7 @@ package dev.ime.infrastructure.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.ime.common.constants.GlobalConstants;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "products")
+@Table(name = GlobalConstants.PROD_CAT_DB)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -48,6 +49,5 @@ public class ProductJpaEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
 	@Builder.Default
-    private Set<ReviewJpaEntity> reviews = new HashSet<>();
-    
+    private Set<ReviewJpaEntity> reviews = new HashSet<>();    
 }

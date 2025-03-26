@@ -3,6 +3,7 @@ package dev.ime.infrastructure.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.ime.common.constants.GlobalConstants;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = GlobalConstants.REV_CAT_DB)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

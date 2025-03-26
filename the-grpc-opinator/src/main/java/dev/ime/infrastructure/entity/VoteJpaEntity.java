@@ -1,6 +1,7 @@
 package dev.ime.infrastructure.entity;
 
 
+import dev.ime.common.constants.GlobalConstants;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "votes")
+@Table(name = GlobalConstants.VOT_CAT_DB)
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
