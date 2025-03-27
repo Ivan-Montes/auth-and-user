@@ -20,7 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import dev.ime.application.dto.VoteDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.common.mapper.VoteMapper;
 import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Vote;
@@ -35,6 +36,8 @@ class VoteServiceAdapterTest {
 	private GenericRepositoryPort<Vote> voteRepositoryAdapter;
 	@Mock
 	private VoteMapper voteMapper;
+	@Mock
+	private EventMapper eventMapper;
 	@Mock
 	private AuthorizationServicePort authorizationServiceAdapter;
 	@Mock
@@ -130,7 +133,7 @@ class VoteServiceAdapterTest {
 		Mockito.when(authorizationServiceAdapter.getJwtTokenEmail()).thenReturn(email);
 		Mockito.when(voteRepositoryAdapter.save(Mockito.any(Vote.class))).thenReturn(Optional.of(vote));
 		Mockito.when(voteMapper.fromDomainToDto(Mockito.any(Vote.class))).thenReturn(voteDto);
-		Mockito.when(voteMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<VoteDto> optResult =  voteServiceAdapter.save(voteDto);
@@ -149,7 +152,7 @@ class VoteServiceAdapterTest {
 		Mockito.when(voteMapper.fromDtoToDomain(Mockito.any(VoteDto.class))).thenReturn(vote);
 		Mockito.when(voteRepositoryAdapter.update(Mockito.any(Vote.class))).thenReturn(Optional.of(vote));
 		Mockito.when(voteMapper.fromDomainToDto(Mockito.any(Vote.class))).thenReturn(voteDto);
-		Mockito.when(voteMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<VoteDto> optResult =  voteServiceAdapter.update(voteDto);
@@ -167,7 +170,7 @@ class VoteServiceAdapterTest {
 		Mockito.doNothing().when(authorizationServiceAdapter).checkJwtTokenOwner(Mockito.anyString());
 
 		Mockito.when(voteRepositoryAdapter.deleteById(Mockito.anyLong())).thenReturn(true);
-		Mockito.when(voteMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(VoteDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 		
 		boolean result = voteServiceAdapter.deleteById(voteId);

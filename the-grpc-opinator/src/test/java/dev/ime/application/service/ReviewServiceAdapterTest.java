@@ -20,7 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import dev.ime.application.dto.ReviewDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.common.mapper.ReviewMapper;
 import dev.ime.domain.model.Event;
 import dev.ime.domain.model.Product;
@@ -36,6 +37,8 @@ class ReviewServiceAdapterTest {
 	private GenericRepositoryPort<Review> reviewRepositoryAdapter;
 	@Mock
 	private ReviewMapper reviewMapper;
+	@Mock
+	private EventMapper eventMapper;
 	@Mock
 	private AuthorizationServicePort authorizationServiceAdapter;
 	@Mock
@@ -133,7 +136,7 @@ class ReviewServiceAdapterTest {
 		Mockito.when(authorizationServiceAdapter.getJwtTokenEmail()).thenReturn(email);
 		Mockito.when(reviewRepositoryAdapter.save(Mockito.any(Review.class))).thenReturn(Optional.of(review));
 		Mockito.when(reviewMapper.fromDomainToDto(Mockito.any(Review.class))).thenReturn(reviewDto);
-		Mockito.when(reviewMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<ReviewDto> optResult =  reviewServiceAdapter.save(reviewDto);
@@ -152,7 +155,7 @@ class ReviewServiceAdapterTest {
 		Mockito.when(reviewMapper.fromDtoToDomain(Mockito.any(ReviewDto.class))).thenReturn(review);
 		Mockito.when(reviewRepositoryAdapter.update(Mockito.any(Review.class))).thenReturn(Optional.of(review));
 		Mockito.when(reviewMapper.fromDomainToDto(Mockito.any(Review.class))).thenReturn(reviewDto);
-		Mockito.when(reviewMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<ReviewDto> optResult =  reviewServiceAdapter.update(reviewDto);
@@ -170,7 +173,7 @@ class ReviewServiceAdapterTest {
 		Mockito.doNothing().when(authorizationServiceAdapter).checkJwtTokenOwner(Mockito.anyString());
 
 		Mockito.when(reviewRepositoryAdapter.deleteById(Mockito.anyLong())).thenReturn(true);
-		Mockito.when(reviewMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(ReviewDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 		
 		boolean result = reviewServiceAdapter.deleteById(reviewId);

@@ -20,8 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import dev.ime.application.dto.CategoryDto;
-import dev.ime.common.config.GlobalConstants;
+import dev.ime.common.constants.GlobalConstants;
 import dev.ime.common.mapper.CategoryMapper;
+import dev.ime.common.mapper.EventMapper;
 import dev.ime.domain.model.Category;
 import dev.ime.domain.model.Event;
 import dev.ime.domain.port.outbound.GenericRepositoryPort;
@@ -34,6 +35,8 @@ class CategoryServiceAdapterTest {
 	private GenericRepositoryPort<Category> categoryRepositoryAdapter;
 	@Mock
 	private CategoryMapper categoryMapper;
+	@Mock
+	private EventMapper eventMapper;
 	@Mock
 	private PublisherPort publisherAdapter;
 
@@ -121,7 +124,7 @@ class CategoryServiceAdapterTest {
 		Mockito.when(categoryMapper.fromDtoToDomain(Mockito.any(CategoryDto.class))).thenReturn(category);
 		Mockito.when(categoryRepositoryAdapter.save(Mockito.any(Category.class))).thenReturn(Optional.of(category));
 		Mockito.when(categoryMapper.fromDomainToDto(Mockito.any(Category.class))).thenReturn(categoryDto);
-		Mockito.when(categoryMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<CategoryDto> optResult =  categoryServiceAdapter.save(categoryDto);
@@ -138,7 +141,7 @@ class CategoryServiceAdapterTest {
 		Mockito.when(categoryMapper.fromDtoToDomain(Mockito.any(CategoryDto.class))).thenReturn(category);
 		Mockito.when(categoryRepositoryAdapter.update(Mockito.any(Category.class))).thenReturn(Optional.of(category));
 		Mockito.when(categoryMapper.fromDomainToDto(Mockito.any(Category.class))).thenReturn(categoryDto);
-		Mockito.when(categoryMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 
 		Optional<CategoryDto> optResult =  categoryServiceAdapter.update(categoryDto);
@@ -153,7 +156,7 @@ class CategoryServiceAdapterTest {
 	void deleteById_shouldReturnTrue() {
 		
 		Mockito.when(categoryRepositoryAdapter.deleteById(Mockito.anyLong())).thenReturn(true);
-		Mockito.when(categoryMapper.fromDtoToEvent(Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
+		Mockito.when(eventMapper.createEvent(Mockito.anyString(),Mockito.anyString(),Mockito.any(CategoryDto.class))).thenReturn(event);
 		Mockito.doNothing().when(publisherAdapter).publishEvent(Mockito.any(Event.class));
 		
 		boolean result = categoryServiceAdapter.deleteById(categoryId);
