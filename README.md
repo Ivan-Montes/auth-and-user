@@ -3,7 +3,7 @@
 
 When gRPC met Spring... but also Hexagonal Arch, Authorization Server and JWT. The system allows users to register, create categories, products, and leave opinions, reviews, and votes.
 
-**Components** :rotating_light::no_entry: **IN CONSTRUCCTION**
+**Components**
 - [Kafka](https://kafka.apache.org/) [9092] + [9093] 
 - Eureka server as service registry and discovery service [8761]
 - Authorization Server (the-grpc-autho) [9000] + [9001]
